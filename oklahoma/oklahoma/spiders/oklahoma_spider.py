@@ -8,14 +8,15 @@ class OklahomaFinanceSpider(CrawlSpider):
     name = "OklahomaFinanceSpider"
     allowed_domains = ["data.ok.gov"]
     start_urls = [
-            "http://data.ok.gov/browse?f%5B0%5D=bundle_name%3ADataset"
-
+			"http://data.ok.gov/browse?f[0]=bundle_name%3ADataset&f[1]=im_field_categories%3A4081"
             ] 
 
     rules = (
         Rule(SgmlLinkExtractor(allow=(), restrict_xpaths=('//li[@class="pager-next"]',)), callback="parse_page", follow= True),
-    )
+    ) 
 
+    def parse_start_url(self,response):
+    	return self.parse_page(response)
     def parse_page(self, response): 
 
         for href in response.xpath('//*[contains(concat(" ", normalize-space(@class), " "),"search-results apachesolr_search-results")]/h3/a/@href'):
