@@ -12,9 +12,9 @@ class OklahomaItem(scrapy.Item):
     name = scrapy.Field()
     description = scrapy.Field()
     csv_link = scrapy.Field()
-    xml_link = scrapy.Field()
-    json_link = scrapy.Field() 
-    rdf_link = scrapy.Field()
+    #xml_link = scrapy.Field()
+    #json_link = scrapy.Field() 
+    #rdf_link = scrapy.Field()
 
 
 
