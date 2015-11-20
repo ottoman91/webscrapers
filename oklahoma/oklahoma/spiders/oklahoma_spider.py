@@ -3,12 +3,22 @@ from oklahoma.items import OklahomaItem
 
 class OklahomaFinanceSpider(scrapy.Spider):
     name = "OklahomaFinanceSpider"
-    allowed_domains = ["dmoz.org"]
+    allowed_domains = ["data.ok.gov"]
     start_urls = [
-            "http://data.ok.gov/dataset/revolving-funds-october-2014"
+            "http://data.ok.gov/browse?f%5B0%5D=bundle_name%3ADataset"
+
             ]
 
-    def parse(self, response):  
+    def parse(self, response):
+        for href in response.xpath('//*[contains(concat(" ", normalize-space(@class), " "),"search-results apachesolr_search-results")]/h3/a/@href'):
+            url = response.urljoin(href.extract())
+            yield scrapy.Request(url, callback=self.parse_dir_contents) 
+
+
+
+
+
+    def parse_dir_contents(self, response):  
 
         item = OklahomaItem()
 
